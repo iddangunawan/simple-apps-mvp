@@ -1,0 +1,21 @@
+package com.mylektop.simpleappsmvp.networking;
+
+import com.mylektop.simpleappsmvp.models.CityListResponse;
+import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+
+import java.util.List;
+
+import retrofit2.http.GET;
+import rx.Observable;
+
+/**
+ * Created by MyLektop on 19/08/2018.
+ */
+public interface NetworkService {
+
+    @GET("v1/city")
+    Observable<CityListResponse> getCityList();
+
+    @GET("posts")
+    Observable<List<PostListDataResponse>> getPostList();
+}
