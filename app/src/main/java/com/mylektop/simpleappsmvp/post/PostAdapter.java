@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mylektop.simpleappsmvp.R;
-import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
 

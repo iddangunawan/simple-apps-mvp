@@ -1,6 +1,6 @@
 package com.mylektop.simpleappsmvp.post;
 
-import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 import com.mylektop.simpleappsmvp.networking.NetworkError;
 import com.mylektop.simpleappsmvp.networking.Service;
 
@@ -30,7 +30,7 @@ public class PostPresenter {
             @Override
             public void onSuccess(List<PostListDataResponse> postListDataResponses) {
                 view.removeWait();
-                view.getCityListSuccess(postListDataResponses);
+                view.getPostListSuccess(postListDataResponses);
             }
 
             @Override
@@ -39,6 +39,26 @@ public class PostPresenter {
                 view.onFailure(networkError.getAppErrorMessage());
             }
         });
+
+        subscriptions.add(subscription);
+    }
+
+    public void getPostDetail(int postId) {
+        view.showWait();
+
+        Subscription subscription = service.getPostDetail(new Service.GetPostDetailCallback() {
+            @Override
+            public void onSuccess(PostListDataResponse postListDataResponse) {
+                view.removeWait();
+                view.getPostDetailSuccess(postListDataResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.removeWait();
+                view.onFailure(networkError.getAppErrorMessage());
+            }
+        }, postId);
 
         subscriptions.add(subscription);
     }

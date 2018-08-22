@@ -1,6 +1,6 @@
 package com.mylektop.simpleappsmvp.post;
 
-import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
 
@@ -15,5 +15,7 @@ public interface PostView {
 
     void onFailure(String appErrorMessage);
 
-    void getCityListSuccess(List<PostListDataResponse> postListDataResponses);
+    void getPostListSuccess(List<PostListDataResponse> postListDataResponses);
+
+    void getPostDetailSuccess(PostListDataResponse postListDataResponse);
 }

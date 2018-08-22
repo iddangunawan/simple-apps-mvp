@@ -1,4 +1,4 @@
-package com.mylektop.simpleappsmvp.models;
+package com.mylektop.simpleappsmvp.models.post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

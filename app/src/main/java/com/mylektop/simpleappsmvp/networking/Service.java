@@ -1,7 +1,7 @@
 package com.mylektop.simpleappsmvp.networking;
 
 import com.mylektop.simpleappsmvp.models.CityListResponse;
-import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
 
@@ -88,6 +88,40 @@ public class Service {
 
     public interface GetPostListCallback {
         void onSuccess(List<PostListDataResponse> postListDataResponses);
+
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getPostDetail(final GetPostDetailCallback callback, int postId) {
+        return networkService.getPostDetail(postId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends PostListDataResponse>>() {
+                    @Override
+                    public Observable<? extends PostListDataResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<PostListDataResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(PostListDataResponse postListDataResponse) {
+                        callback.onSuccess(postListDataResponse);
+                    }
+                });
+    }
+
+    public interface GetPostDetailCallback {
+        void onSuccess(PostListDataResponse postListDataResponse);
 
         void onError(NetworkError networkError);
     }

@@ -1,11 +1,12 @@
 package com.mylektop.simpleappsmvp.networking;
 
 import com.mylektop.simpleappsmvp.models.CityListResponse;
-import com.mylektop.simpleappsmvp.models.PostListDataResponse;
+import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -18,4 +19,7 @@ public interface NetworkService {
 
     @GET("posts")
     Observable<List<PostListDataResponse>> getPostList();
+
+    @GET("posts/{id}")
+    Observable<PostListDataResponse> getPostDetail(@Path("id") int postId);
 }
