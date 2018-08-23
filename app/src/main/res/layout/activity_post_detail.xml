@@ -18,7 +18,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/postTitle"
+                android:id="@+id/postDetailTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
@@ -26,7 +26,7 @@
                 tools:text="Post Title" />
 
             <TextView
-                android:id="@+id/postBody"
+                android:id="@+id/postDetailBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
@@ -50,6 +50,11 @@
                 android:textColor="@android:color/white"
                 tools:text="100" />
         </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/postComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <ProgressBar

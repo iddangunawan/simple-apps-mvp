@@ -1,6 +1,7 @@
 package com.mylektop.simpleappsmvp.networking;
 
 import com.mylektop.simpleappsmvp.models.CityListResponse;
+import com.mylektop.simpleappsmvp.models.post.PostCommentListResponse;
 import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface NetworkService {
 
     @GET("posts/{id}")
     Observable<PostListDataResponse> getPostDetail(@Path("id") int postId);
+
+    @GET("posts/{id}/comments")
+    Observable<List<PostCommentListResponse>> getPostComment(@Path("id") int postId);
 }

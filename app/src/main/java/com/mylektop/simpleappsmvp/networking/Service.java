@@ -1,6 +1,7 @@
 package com.mylektop.simpleappsmvp.networking;
 
 import com.mylektop.simpleappsmvp.models.CityListResponse;
+import com.mylektop.simpleappsmvp.models.post.PostCommentListResponse;
 import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
@@ -122,6 +123,40 @@ public class Service {
 
     public interface GetPostDetailCallback {
         void onSuccess(PostListDataResponse postListDataResponse);
+
+        void onError(NetworkError networkError);
+    }
+
+    public Subscription getPostComment(final GetPostCommentCallBack callBack, int postId) {
+        return networkService.getPostComment(postId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<PostCommentListResponse>>>() {
+                    @Override
+                    public Observable<? extends List<PostCommentListResponse>> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<List<PostCommentListResponse>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(new NetworkError(e));
+                    }
+
+                    @Override
+                    public void onNext(List<PostCommentListResponse> postCommentListResponses) {
+                        callBack.onSuccess(postCommentListResponses);
+                    }
+                });
+    }
+
+    public interface GetPostCommentCallBack {
+        void onSuccess(List<PostCommentListResponse> postCommentListResponses);
 
         void onError(NetworkError networkError);
     }

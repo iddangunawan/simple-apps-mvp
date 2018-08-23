@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.mylektop.simpleappsmvp.BaseApp;
 import com.mylektop.simpleappsmvp.R;
+import com.mylektop.simpleappsmvp.models.post.PostCommentListResponse;
 import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 import com.mylektop.simpleappsmvp.networking.Service;
 
@@ -21,10 +22,10 @@ import javax.inject.Inject;
  */
 public class PostActivity extends BaseApp implements PostView {
 
-    private RecyclerView list;
     @Inject
     public Service service;
-    ProgressBar progressBar;
+    private RecyclerView list;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,11 @@ public class PostActivity extends BaseApp implements PostView {
 
     @Override
     public void getPostDetailSuccess(PostListDataResponse postListDataResponse) {
+
+    }
+
+    @Override
+    public void getPostCommentSuccess(List<PostCommentListResponse> postCommentListResponses) {
 
     }
 

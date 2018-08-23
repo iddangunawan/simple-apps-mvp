@@ -1,5 +1,6 @@
 package com.mylektop.simpleappsmvp.post;
 
+import com.mylektop.simpleappsmvp.models.post.PostCommentListResponse;
 import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface PostView {
     void getPostListSuccess(List<PostListDataResponse> postListDataResponses);
 
     void getPostDetailSuccess(PostListDataResponse postListDataResponse);
+
+    void getPostCommentSuccess(List<PostCommentListResponse> postCommentListResponses);
 }

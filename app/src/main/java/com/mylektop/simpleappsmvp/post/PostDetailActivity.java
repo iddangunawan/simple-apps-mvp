@@ -1,12 +1,16 @@
 package com.mylektop.simpleappsmvp.post;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mylektop.simpleappsmvp.BaseApp;
 import com.mylektop.simpleappsmvp.R;
+import com.mylektop.simpleappsmvp.models.post.PostCommentListResponse;
 import com.mylektop.simpleappsmvp.models.post.PostListDataResponse;
 import com.mylektop.simpleappsmvp.networking.Service;
 
@@ -18,8 +22,9 @@ public class PostDetailActivity extends BaseApp implements PostView {
 
     @Inject
     public Service service;
-    private TextView tvTitle, tvBody;
-    ProgressBar progressBar;
+    private TextView tvPostDetailTitle, tvPostDetailBody, tvPostCommentCount;
+    private RecyclerView list;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +36,21 @@ public class PostDetailActivity extends BaseApp implements PostView {
 
         PostPresenter presenter = new PostPresenter(service, this);
         presenter.getPostDetail(getIntent().getIntExtra("POST_ID", 0));
+        presenter.getPostComment(getIntent().getIntExtra("POST_ID", 0));
     }
 
     public void renderView() {
         setContentView(R.layout.activity_post_detail);
 
-        tvTitle = (TextView) findViewById(R.id.postTitle);
-        tvBody = (TextView) findViewById(R.id.postBody);
+        tvPostDetailTitle = (TextView) findViewById(R.id.postDetailTitle);
+        tvPostDetailBody = (TextView) findViewById(R.id.postDetailBody);
+        tvPostCommentCount = (TextView) findViewById(R.id.postCommentCount);
+        list = (RecyclerView) findViewById(R.id.postComments);
         progressBar = (ProgressBar) findViewById(R.id.progress);
     }
 
     public void init() {
-
+        list.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -67,7 +75,21 @@ public class PostDetailActivity extends BaseApp implements PostView {
 
     @Override
     public void getPostDetailSuccess(PostListDataResponse postListDataResponse) {
-        tvTitle.setText(postListDataResponse.getTitle());
-        tvBody.setText(postListDataResponse.getBody());
+        tvPostDetailTitle.setText(postListDataResponse.getTitle());
+        tvPostDetailBody.setText(postListDataResponse.getBody());
+    }
+
+    @Override
+    public void getPostCommentSuccess(List<PostCommentListResponse> postCommentListResponses) {
+        PostCommentAdapter adapter = new PostCommentAdapter(getApplicationContext(), postCommentListResponses,
+                new PostCommentAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(PostCommentListResponse item) {
+                        Toast.makeText(getBaseContext(), item.getName() + " comment", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        list.setAdapter(adapter);
+        tvPostCommentCount.setText(adapter.getItemCount() + " comments");
     }
 }
