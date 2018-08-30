@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mylektop.simpleappsmvp.R;
@@ -40,7 +39,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.tvTitle.setText(data.get(position).getTitle());
         holder.tvBody.setText(data.get(position).getBody());
         holder.detail(data.get(position), listener);
     }
@@ -55,19 +53,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvBody;
-        ImageView ivDetail;
+        TextView tvBody;
 
         private ViewHolder(View itemView) {
             super(itemView);
 
-            tvTitle = (TextView) itemView.findViewById(R.id.postTitle);
             tvBody = (TextView) itemView.findViewById(R.id.postBody);
-            ivDetail = (ImageView) itemView.findViewById(R.id.postDetail);
         }
 
         private void detail(final PostListDataResponse postListDataResponse, final OnItemClickListener listener) {
-            ivDetail.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onClick(postListDataResponse);

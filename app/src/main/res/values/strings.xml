@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Simple Apps MVP</string>
+    <string name="app_name">My Feed</string>
+    <string name="search">Search</string>
 </resources>
